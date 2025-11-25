@@ -949,12 +949,40 @@ class FileForgeApp:
         y = (self.root.winfo_screenheight() // 2) - (height // 2)
         self.root.geometry(f"+{x}+{y}")
 
-        # Set window icon if available
-        try:
-            # Try to set a simple icon
-            pass  # Icon handling can be added later
-        except Exception:
-            pass
+        # Set window icon
+        self._set_window_icon()
+
+    def _set_window_icon(self):
+        """Set the window icon from favicon.ico."""
+        import sys
+        import os
+
+        # List of paths to check for the icon
+        icon_paths = []
+
+        if getattr(sys, 'frozen', False):
+            # Running as compiled executable
+            exe_dir = os.path.dirname(sys.executable)
+            icon_paths.append(os.path.join(exe_dir, 'favicon.ico'))
+            # Also check Nuitka/PyInstaller bundled paths
+            if hasattr(sys, '_MEIPASS'):
+                icon_paths.append(os.path.join(sys._MEIPASS, 'favicon.ico'))
+        else:
+            # Running in development
+            # 1. Current working directory
+            icon_paths.append(os.path.join(os.getcwd(), 'favicon.ico'))
+            # 2. Project root (parent of fileforge package)
+            base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            icon_paths.append(os.path.join(base_path, 'favicon.ico'))
+
+        # Try each path
+        for icon_path in icon_paths:
+            if os.path.exists(icon_path):
+                try:
+                    self.root.iconbitmap(default=icon_path)
+                    return
+                except Exception as e:
+                    logger.debug(f"Could not set window icon from {icon_path}: {e}")
 
     def _configure_styles(self):
         """Configure ttk styles for the dark theme."""
