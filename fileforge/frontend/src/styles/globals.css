@@ -1,0 +1,453 @@
+/**
+ * globals.css - Global Styles for FileForge
+ *
+ * Contains Tailwind imports, CSS custom properties for theming,
+ * custom scrollbar styling, and animation keyframes.
+ */
+
+/* Tailwind CSS Imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for Theming */
+:root {
+  /* Dark Theme (Default) */
+  --color-background: 15 23 42; /* slate-900 */
+  --color-foreground: 248 250 252; /* slate-50 */
+  --color-surface: 30 41 59; /* slate-800 */
+  --color-surface-hover: 51 65 85; /* slate-700 */
+  --color-border: 51 65 85; /* slate-700 */
+  --color-border-hover: 71 85 105; /* slate-600 */
+  --color-text-primary: 248 250 252; /* slate-50 */
+  --color-text-secondary: 203 213 225; /* slate-300 */
+  --color-text-muted: 148 163 184; /* slate-400 */
+  --color-text-disabled: 100 116 139; /* slate-500 */
+
+  /* Brand Colors */
+  --color-primary: 139 92 246; /* violet-500 */
+  --color-primary-hover: 124 58 237; /* violet-600 */
+  --color-secondary: 59 130 246; /* blue-500 */
+  --color-accent: 16 185 129; /* emerald-500 */
+
+  /* Semantic Colors */
+  --color-success: 16 185 129; /* emerald-500 */
+  --color-warning: 245 158 11; /* amber-500 */
+  --color-error: 239 68 68; /* red-500 */
+  --color-info: 59 130 246; /* blue-500 */
+
+  /* Shadows */
+  --shadow-color: 0 0 0;
+  --shadow-opacity: 0.5;
+
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* Light Theme */
+.light {
+  --color-background: 248 250 252; /* slate-50 */
+  --color-foreground: 15 23 42; /* slate-900 */
+  --color-surface: 255 255 255; /* white */
+  --color-surface-hover: 241 245 249; /* slate-100 */
+  --color-border: 226 232 240; /* slate-200 */
+  --color-border-hover: 203 213 225; /* slate-300 */
+  --color-text-primary: 15 23 42; /* slate-900 */
+  --color-text-secondary: 51 65 85; /* slate-700 */
+  --color-text-muted: 100 116 139; /* slate-500 */
+  --color-text-disabled: 148 163 184; /* slate-400 */
+  --shadow-opacity: 0.1;
+}
+
+/* Base Styles */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-text-primary));
+    transition: background-color var(--transition-normal) ease,
+      color var(--transition-normal) ease;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-primary));
+    outline-offset: 2px;
+  }
+
+  /* Selection styles */
+  ::selection {
+    background-color: rgb(var(--color-primary) / 0.3);
+    color: rgb(var(--color-text-primary));
+  }
+}
+
+/* Custom Scrollbar Styling */
+@layer utilities {
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--color-surface));
+    border-radius: var(--radius-lg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--color-primary) / 0.5),
+      rgb(var(--color-secondary) / 0.5)
+    );
+    border-radius: var(--radius-lg);
+    border: 2px solid rgb(var(--color-surface));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--color-primary) / 0.7),
+      rgb(var(--color-secondary) / 0.7)
+    );
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-primary) / 0.5) rgb(var(--color-surface));
+  }
+
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Animation Keyframes */
+@layer utilities {
+  /* Pulse animation */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Shimmer animation */
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+
+  /* Float animation */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Bounce soft animation */
+  @keyframes bounce-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .animate-bounce-soft {
+    animation: bounce-soft 1s ease-in-out infinite;
+  }
+
+  /* Spin slow animation */
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+
+  /* Fade in up animation */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+
+  /* Scale in animation */
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out forwards;
+  }
+
+  /* Gradient shift animation */
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  /* Progress bar animation */
+  @keyframes progress-indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(400%);
+    }
+  }
+
+  .animate-progress-indeterminate {
+    animation: progress-indeterminate 1.5s ease-in-out infinite;
+  }
+
+  /* Checkmark draw animation */
+  @keyframes draw-check {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-draw-check {
+    stroke-dasharray: 100;
+    animation: draw-check 0.5s ease-out forwards;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Card base style */
+  .card {
+    @apply rounded-xl bg-slate-800/50 border border-slate-700/50;
+    @apply transition-all duration-200;
+    @apply hover:border-slate-600/50;
+  }
+
+  /* Button base styles */
+  .btn {
+    @apply inline-flex items-center justify-center;
+    @apply px-4 py-2 rounded-lg font-medium;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-violet-600 to-blue-500;
+    @apply text-white;
+    @apply hover:from-violet-500 hover:to-blue-400;
+    @apply focus:ring-violet-500;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-700 text-slate-200;
+    @apply hover:bg-slate-600;
+    @apply focus:ring-slate-500;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-slate-400;
+    @apply hover:bg-slate-800 hover:text-slate-200;
+    @apply focus:ring-slate-500;
+  }
+
+  /* Input base styles */
+  .input {
+    @apply w-full px-4 py-2.5 rounded-lg;
+    @apply bg-slate-900/50 border border-slate-700/50;
+    @apply text-slate-200 placeholder-slate-500;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply backdrop-blur-xl bg-slate-900/80;
+    @apply border border-slate-800/50;
+  }
+
+  /* Glow effects */
+  .glow-violet {
+    box-shadow: 0 0 20px rgb(var(--color-primary) / 0.3),
+      0 0 40px rgb(var(--color-primary) / 0.1);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgb(var(--color-secondary) / 0.3),
+      0 0 40px rgb(var(--color-secondary) / 0.1);
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 20px rgb(var(--color-success) / 0.3),
+      0 0 40px rgb(var(--color-success) / 0.1);
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Backdrop utilities */
+  .backdrop-blur-xs {
+    backdrop-filter: blur(2px);
+  }
+
+  /* Transition utilities */
+  .transition-transform-opacity {
+    transition-property: transform, opacity;
+  }
+
+  /* Safe area padding for mobile */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-inset-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: 71 85 105;
+  }
+
+  .card {
+    border-width: 2px;
+  }
+}
